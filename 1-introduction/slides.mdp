@@ -1,0 +1,58 @@
+%title: HAPROXY - Introduction
+%author: xavki
+
+
+
+
+-> HAPROXY c'est quoi ? <-
+=========
+
+* mise en relation entre client/serveur : proxy
+
+* protège d'attaques directes
+
+* écoute sur des adresses ou ports (éventuellement translation)
+
+* transparence
+
+* multi-protocoles : ipv4 / ipv6...
+
+* load balancing : répartition de charge entre plusieurs machines cibles
+
+* configuration des timeout (règles)
+
+* http / tls 1.3
+
+* http 2.0 : réduction de latence
+
+* règles de forwarding
+
+* gestion des certificats
+
+
+
+* monitoring :
+	- trafic frontend / backend
+	- healthcheck : multiples méthodes (LDAP, SMTP, HTTP, TCP, SQL...)
+
+* interface
+
+
+* service reload
+
+
+* test de conf avant reload
+
+
+* SPOF : donc HA... lien étroit avec keepalived
+
+
+* 9 algos de load balancing : Round Robin, Least, first, source, URI, hdr...
+
+
+* slow start : mise en production progressive
+
+
+* stickyness : maintien de session
+
+* réécriture d'url

@@ -1,0 +1,30 @@
+%title: HAPROXY - Principes
+%author: xavki
+
+
+
+
+-> les 9 étapes selon Haproxy <-
+=========
+
+1- frontend : écoute sur les adresses/ip définies (une ou plusieurs entrées)
+
+2- frontend : application des règles spécifiques (blocage, modification header, interception, stats)
+
+3- frontend : redirection vers un backend lié
+
+4- backend : application des règles spécific au backend
+
+5- backend : application de la règle de load balancing
+
+6- backend : gestion des règles des retours du serveur (data) niveau backend
+
+7- frontend : gestion des règles des retours niveauv frontend
+
+8- log : réalisation du log correspondant à l'échange
+
+9- http : retour à la deuxième étape si nécessaire
+
+
+
+
