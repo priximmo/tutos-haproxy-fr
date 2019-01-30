@@ -1,0 +1,60 @@
+%title: HAPROXY - Installation
+%author: xavki
+
+
+
+
+-> HAPROXY : Installation <-
+=========
+
+
+* paquet debian
+
+
+```
+sudo apt-get install haproxy
+```
+
+
+* configuration :
+
+
+```
+/etc/haproxy/haproxy.cfg
+```
+
+-------------------------------------------------------------------------
+
+
+-> HAPROXY : configuration de base <-
+
+
+* le mini :
+	- global : s'applique à tous
+	- default : s'applique si non défini par ailleurs
+
+
+```
+global
+        daemon
+        maxconn 256
+
+defaults
+        mode http
+        timeout connect 5000ms
+        timeout client 50000ms
+        timeout server 50000ms
+
+```
+
+daemon : background
+maxconn : nombre de connexions concurrentes maxi
+mode : http/tcp
+...
+
+-----------------------------------------------------------------------
+
+-
+
+
+

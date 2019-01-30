@@ -7,22 +7,31 @@
 -> les 9 étapes selon Haproxy <-
 =========
 
+<br>
 1- frontend : écoute sur les adresses/ip définies (une ou plusieurs entrées)
 
+<br>
 2- frontend : application des règles spécifiques (blocage, modification header, interception, stats)
 
+<br>
 3- frontend : redirection vers un backend lié
 
+<br>
 4- backend : application des règles spécific au backend
 
+<br>
 5- backend : application de la règle de load balancing
 
+<br>
 6- backend : gestion des règles des retours du serveur (data) niveau backend
 
+<br>
 7- frontend : gestion des règles des retours niveauv frontend
 
+<br>
 8- log : réalisation du log correspondant à l'échange
 
+<br>
 9- http : retour à la deuxième étape si nécessaire
 
 

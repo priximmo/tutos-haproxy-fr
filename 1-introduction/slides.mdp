@@ -9,15 +9,15 @@
 
 * mise en relation entre client/serveur : proxy
 
+* load balancing : répartition de charge entre plusieurs machines cibles
+
 * protège d'attaques directes
 
 * écoute sur des adresses ou ports (éventuellement translation)
 
-* transparence
+* transparence 
 
 * multi-protocoles : ipv4 / ipv6...
-
-* load balancing : répartition de charge entre plusieurs machines cibles
 
 * configuration des timeout (règles)
 
@@ -29,13 +29,15 @@
 
 * gestion des certificats
 
+------------------------------------------------------------------------------------------
 
+-> Techniquement <-
 
 * monitoring :
 	- trafic frontend / backend
 	- healthcheck : multiples méthodes (LDAP, SMTP, HTTP, TCP, SQL...)
 
-* interface
+* interface graphique
 
 
 * service reload
@@ -55,4 +57,8 @@
 
 * stickyness : maintien de session
 
+
 * réécriture d'url
+
+
+* module Ansible
