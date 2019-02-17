@@ -8,6 +8,8 @@
 =========
 
 
+
+
 * paquet debian
 
 
@@ -23,38 +25,32 @@ sudo apt-get install haproxy
 /etc/haproxy/haproxy.cfg
 ```
 
+
+
 -------------------------------------------------------------------------
 
 
--> HAPROXY : configuration de base <-
+
+-> HAPROXY : les fichiers <-
 
 
-* le mini :
-	- global : s'applique à tous
-	- default : s'applique si non défini par ailleurs
 
 
-```
-global
-        daemon
-        maxconn 256
 
-defaults
-        mode http
-        timeout connect 5000ms
-        timeout client 50000ms
-        timeout server 50000ms
+* /etc/sysconfig : configuration du daemon
 
-```
+* /etc/logrotate.d/haproxy : si utilisation de logrotate
 
-daemon : background
-maxconn : nombre de connexions concurrentes maxi
-mode : http/tcp
-...
+* /etc/haproxy/haproxy.cfg : fichier de configuration des front/back
 
------------------------------------------------------------------------
+* /var/lib/haproxy : datas de haproxy
 
--
+* /usr/sbin/haproxy : binaire haproxy
 
+* /usr/local/sbin/haproxy : copie du binaire
+
+* /usr/share/haproxy : template des pages d'erreur
+
+* /usr/local/doc/haproxy : documentation
 
 
