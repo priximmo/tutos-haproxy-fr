@@ -1,0 +1,71 @@
+%title: HAPROXY - Configuration
+%author: xavki
+
+
+
+
+-> HAPROXY configuration : Global et Default <-
+=========
+
+
+* section global : s'applique à haproxy lui-même
+
+```
+global
+		log /dev/log local 10
+		chroot /var/lib/haproxy
+		stats socket /run/haproxy/admin.sock mode 660 level admin
+		stats timeout 30s
+		user haproxy
+		group haproxy
+		daemon
+```
+
+* log : attention log binaire format syslog
+
+* chroot : manière de sécuriser haproxy en chrootant dans /var/lib/haproxy
+
+* stats : activation de la socket (interaction hatop
+
+* timeout : sur la socket stat
+
+* user/group : qui lance le process haproxy
+
+* daemon : faire tourner en background
+
+* éventuellement le ssl
+
+------------------------------------------------------------------------------------
+
+
+
+-> HAPROXY configuration : Global et Default <-
+
+
+* section default : s'applique si aucune autre configuration n'est précisée (sur front/back)
+
+```
+default
+		log global
+		mode http
+		option httplog
+		option dontlognull
+		timeout connect 5000
+		timeout client 50000
+		timeout server 50000
+		errorfile 400 /etc/haproxy/errors/400.http
+```
+
+* log global : log tout vers syslog
+
+* mode http : type de LB (TCP ou HTTP)
+
+* option : log des requêtes http
+
+* dontlognull : ne log pas les requêtes null
+
+* timeout connect : connexion au serveur cible
+
+* timeout client : connexion cliente (browser)
+
+* timeout server : la réposne du serveur cible
