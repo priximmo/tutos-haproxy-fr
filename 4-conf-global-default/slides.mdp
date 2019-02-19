@@ -7,9 +7,10 @@
 -> HAPROXY configuration : Global et Default <-
 =========
 
-
+<br>
 * section global : s'applique à haproxy lui-même
 
+<br>
 ```
 global
 		log /dev/log local 10
@@ -21,6 +22,7 @@ global
 		daemon
 ```
 
+<br>
 * log : attention log binaire format syslog
 
 * chroot : manière de sécuriser haproxy en chrootant dans /var/lib/haproxy
@@ -42,8 +44,10 @@ global
 -> HAPROXY configuration : Global et Default <-
 
 
+<br>
 * section default : s'applique si aucune autre configuration n'est précisée (sur front/back)
 
+<br>
 ```
 default
 		log global
@@ -56,6 +60,7 @@ default
 		errorfile 400 /etc/haproxy/errors/400.http
 ```
 
+<br>
 * log global : log tout vers syslog
 
 * mode http : type de LB (TCP ou HTTP)
@@ -69,3 +74,14 @@ default
 * timeout client : connexion cliente (browser)
 
 * timeout server : la réposne du serveur cible
+
+
+-> Listen <-
+
+* autre format réunissant frontend/backend
+
+```
+listen monapp
+		bind: *.80
+		server server1 127.0.0.1 5000
+```

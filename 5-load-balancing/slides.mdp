@@ -1,0 +1,67 @@
+%title: HAPROXY - LoadBalancing
+%author: xavki
+
+
+
+
+-> HAPROXY : Load Balancer <-
+=========
+
+<br>
+* principe : supporter de plus forte charge de traffic
+
+* principe : avoir de la haute dispo
+
+<br>
+* pool : ensemble de serveurs assurant la même fonction et identiques
+
+<br>
+
+* configuration la plus simple :
+
+```
+frontend myapp_front
+		bind: *.80
+		default_backend myapp_back
+
+backend myapp_back
+		server serv01 172.17.0.3:5000
+		server serv02 172.17.0.4:5000
+		server serv03 172.17.0.5:5000
+```
+
+--------------------------------------------------------------------------
+
+
+-> Plusieurs front/back <-
+
+
+<br>
+* mutualiser le service de loadbalancing
+
+* haproxy permet de supporter de forte charge
+
+<br>
+* exemple multifront :
+
+```
+frontend myapp_front
+    bind: *.80
+		default_backend myapp_back
+
+frontend autre_front
+    bind: *.8080
+		default_backend autre_back
+
+default_backend myapp_back
+    server serv01 172.17.0.3:5000
+    server serv02 172.17.0.4:5000
+    server serv03 172.17.0.5:5000
+
+default_backend autre_back
+    server autre01 172.17.0.6:5000
+    server autre02 172.17.0.7:5000
+    server autre03 172.17.0.8:5000
+
+```
+
