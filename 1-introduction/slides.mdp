@@ -7,6 +7,7 @@
 -> HAPROXY c'est quoi ? <-
 =========
 
+<br>
 * mise en relation entre client/serveur : proxy
 
 * load balancing : répartition de charge entre plusieurs machines cibles
