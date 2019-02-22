@@ -1,0 +1,70 @@
+%title: HAPROXY - Forward For
+%author: xavki
+
+
+
+
+-> HAPROXY :  Forward For <-
+=========
+
+
+
+<br>
+* rendre haproxy le plus transparent possible
+
+* être capable de conserver l'ip cliente de bout en bout
+
+* pour les logs
+
+* pour le type de service (zone géographique)
+
+```
+#!/usr/bin/python
+from flask import Flask, render_template, request
+app = Flask(__name__)
+
+
+@app.route('/')
+def bonjour():
+        ip = request.remote_addr
+        origin=request.headers.get('X-Forwarded-For', request.remote_addr)
+        return origin + " via "+ ip
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)
+
+```
+
+
+-----------------------------------------------------------------------------------------------
+
+-> Mise en pratique <-
+
+
+<br>
+première méthode :
+
+```
+frontend myapp_front
+    bind *:80
+    mode http
+    default_backend load
+    http-request set-header Forwarded for=%[src]
+backend load
+    server load1 127.0.0.1:5000
+
+``` 
+<br>
+seconde méthode :
+
+```
+frontend myapp_front
+    bind *:80
+    mode http
+    option forwardfor
+    default_backend load
+
+backend load
+    server load1 127.0.0.1:5000
+
+```
