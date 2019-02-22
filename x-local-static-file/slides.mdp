@@ -1,0 +1,19 @@
+%title: HAPROXY - FrontEnd
+%author: xavki
+
+
+
+
+-> HAPROXY :  FrontEnd <-
+=========
+
+
+```
+frontend port80
+    acl is_pingdom path /lb_ping.html
+    use_backend pingdom-check if is_pingdom
+
+backend pingdom-check
+    mode http
+    errorfile 503 /etc/haproxy/errors/200pingdom.http
+```

@@ -1,0 +1,41 @@
+%title: HAPROXY - FrontEnd ACL
+%author: xavki
+
+
+
+
+-> HAPROXY :  ACL <-
+=========
+
+
+
+<br>
+* acl = gestion plus fine des entrants
+		- url
+		- beaucoup d'autres éléments : master/slave...
+
+<br>
+* proxy : plusieurs url d'entrée pour des cibles différentes
+
+* couche L7 : mode http ( diff de L4 pour TCP)
+
+<br>
+
+```
+frontend myapp_front
+    bind *:80
+    mode http
+
+    acl myapp_front1 hdr_dom(host) -i loadbalancer1.fr
+    use_backend load1 if myapp_front1
+
+    acl myapp_front2 hdr_dom(host) -i loadbalancer2.fr
+    use_backend load2 if myapp_front2
+
+backend load1
+    server nginx 127.0.0.1:8000
+
+backend load2
+    server python 127.0.0.1:5000
+
+```

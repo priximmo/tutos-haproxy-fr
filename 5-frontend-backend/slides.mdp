@@ -1,0 +1,61 @@
+%title: HAPROXY - FrontEnd
+%author: xavki
+
+
+
+
+-> HAPROXY :  FrontEnd / BackEnd <-
+=========
+
+
+
+<br>
+* frontend : le reverse proxy 
+
+* écoute : listener / écoute
+
+
+<br>
+* exemple frontend minimaliste : 
+
+```
+frontend myapp_front
+    bind: *.80
+		default_backend myapp_back
+```
+
+<br>
+* redirection des paquets
+
+* exemple de backend minimaliste :
+
+```
+backend myapp_back
+    server srv_nginx 127.0.0.1:8000
+```
+
+Rq: test nginx
+
+------------------------------------------------------------------
+
+-> Premier load balancing <-
+
+
+<br>
+* ajout d'un serveur python
+
+```
+python -m SimpleHTTPServer 5000
+```
+
+<br>
+* mise en place d'un second serveur dans le backend :
+
+```
+backend myapp_back
+    balance roundrobin
+    server srv_nginx 127.0.0.1:8000
+    server srv_python 127.0.0.1:5000
+
+```
+
