@@ -33,9 +33,9 @@ frontend myapp_front
     use_backend load2 if myapp_front2
 
 backend load1
-    server nginx 127.0.0.1:8000
+    server serv_load1 172.17.0.3:5000
 
 backend load2
-    server python 127.0.0.1:5000
+    server serv_load2 172.17.0.4:5000
 
 ```
