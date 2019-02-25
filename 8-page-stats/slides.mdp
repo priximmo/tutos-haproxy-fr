@@ -1,0 +1,73 @@
+%title: HAPROXY - FrontEnd ACL
+%author: xavki
+
+
+
+
+-> HAPROXY :  Page de statistiques<-
+=========
+
+
+
+<br>
+* vision générale des services
+
+* état des serveurs et des checks
+
+* statistiques du load balancing
+
+* frontend/backend
+
+* manage des services (autre vidéo)
+<br>
+
+```
+frontend myapp_front
+    bind *:80
+    mode http
+
+    acl myapp_front1 hdr_dom(host) -i loadbalancer1.fr
+    use_backend load1 if myapp_front1
+
+    acl myapp_front2 hdr_dom(host) -i loadbalancer2.fr
+    use_backend load2 if myapp_front2
+
+backend load1
+    server serv_load1 172.17.0.3:5000
+
+backend load2
+    server serv_load2 172.17.0.4:5000
+    server serv_load2 172.17.0.5:5000
+
+```
+
+
+-------------------------------------------------------------
+
+
+
+-> Configurationd de la page de stats <-
+
+
+```
+listen stats
+    bind *:9000
+    stats enable
+    stats uri /stats
+    stats refresh 2s
+    stats auth xavki:pasword
+```
+
+
+
+-------------------------------------------------------------
+
+
+
+
+* ajout d'un serveur python
+
+```
+python -m SimpleHTTPServer 5000
+```
+

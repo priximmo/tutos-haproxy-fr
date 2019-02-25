@@ -19,6 +19,7 @@
 
 * couche L7 : mode http ( diff de L4 pour TCP)
 
+
 <br>
 
 ```
@@ -39,3 +40,24 @@ backend load2
     server serv_load2 172.17.0.4:5000
 
 ```
+
+------------------------------------------------------------------
+
+
+-> Serveurs python <-
+
+
+
+
+
+
+
+
+
+* socket http
+
+
+```
+python -m SimpleHTTPServer 5000
+```
+
