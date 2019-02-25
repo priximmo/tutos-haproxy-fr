@@ -1,0 +1,48 @@
+%title: HAPROXY - FrontEnd ACL
+%author: xavki
+
+
+
+
+-> HAPROXY :  Page de statistiques<-
+=========
+
+
+
+<br>
+
+-> Configurationd de la page de stats <-
+
+
+```
+listen stats
+    bind *:9000
+    stats enable
+    stats uri /stats
+    stats refresh 2s
+    stats auth xavki:pasword
+    stats show-desc
+    stats show-legends
+```
+
+* ajout d'un élément description dans global/frontend/backend
+
+<br>
+* éventuellement ajout de ssl
+
+
+---------------------------------------------------------------------------
+
+
+
+
+-> Adminsitration mini par GUI <-
+
+
+* ajout de la ligne :
+
+```
+stats admin # if TRUE ou if LOCALHOST
+```
+
+
