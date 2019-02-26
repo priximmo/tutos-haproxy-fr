@@ -18,6 +18,15 @@
 
 * pour le type de service (zone géographique)
 
+
+-----------------------------------------------------------------------------------------
+
+
+
+-> Application flask <-
+
+
+
 ```
 #!/usr/bin/python
 from flask import Flask, render_template, request
@@ -51,7 +60,7 @@ frontend myapp_front
     default_backend load
     http-request set-header Forwarded for=%[src]
 backend load
-    server load1 127.0.0.1:5000
+    server load1 1172.17.0.3:5000
 
 ``` 
 <br>
