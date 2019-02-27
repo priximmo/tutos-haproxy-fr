@@ -1,0 +1,74 @@
+%title: HAPROXY - FrontEnd ACL
+%author: xavki
+
+
+
+
+-> HAPROXY :  user-agent & static <-
+=========
+
+<br>
+* précédemment
+
+* gestion par acl pour les urls d'entrées
+
+```
+frontend myapp_front
+    bind *:80
+    mode http
+
+    acl myapp_front1 hdr_dom(host) -i loadbalancer1.fr
+    use_backend load1 if myapp_front1
+
+    acl myapp_front2 hdr_dom(host) -i loadbalancer2.fr
+    use_backend load2 if myapp_front2
+```
+
+------------------------------------------------------------------------
+
+
+-> User-Agent & statics  Serveurs python <-
+
+
+<br>
+
+* user-agent : permet d'adapter le contenu à un OS (mobile,tablette,...)
+			- extension firefox : user-agent switcher
+
+* static : permet d'adapter le service en fonction des éléments demandés (cache...)
+
+<br>
+* exemple : 
+		- iphone
+		- fichier css et js
+
+<br>
+* Frontend :
+
+```
+frontend myapp_front
+    bind *:80
+    mode http
+
+    acl is_static_file url_reg .*\.(css|js)
+    acl mobile_iphone hdr_sub(User-Agent) -i iphone
+    use_backend load1 if is_static_file
+    use_backend load1 if mobile_iphone
+
+    default_backend load2
+
+```
+
+
+----------------------------------------------------------------------------
+
+
+-> Serveur python minimaliste <-
+
+* socket http
+
+
+```
+python -m SimpleHTTPServer 5000
+```
+
