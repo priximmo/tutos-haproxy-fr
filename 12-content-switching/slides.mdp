@@ -1,0 +1,95 @@
+%title: HAPROXY - Algo
+%author: xavki
+
+
+
+
+-> HAPROXY : fetch method <-
+=========
+
+* en mode http
+
+* à partir d'une url orienter les requêtes
+
+<br>
+
+exemple : 
+
+```
+acl is_api path i /monpremierniveau/monsecondniveau/mapage.html
+```
+
+<br>
+* différentes captures :
+
+		* path : match exactement
+		* path_beg : match le début du chemin
+		* path_dir : match un des directory
+		* path_end : match la fin d'url
+		* path_len : match sur la longueur (gt, lt...)
+		* path_reg : match par regex
+		* path_sub : match un morceau
+
+-------------------------------------------------------------------------
+
+-> Exemples <-
+
+* path :
+
+```
+frontend myapp_front
+    bind *:80
+    mode http
+
+    acl is_match path -i /monpremierniveau/monsecondniveau/mapage.html
+    use_backend load1 if is_match
+
+    default_backend load2
+```
+
+* path_beg :
+
+```
+acl is_match path_beg -i /monpremierniveau
+```
+
+
+-------------------------------------------------------------------------
+
+-> Exemples <-
+
+
+* path_dir :
+
+```
+acl is_match path_dir -i /monsecondniveau
+```
+
+* path_end :
+
+```
+acl is_match path_end -i mapage.html
+```
+
+* path_len :
+
+```
+acl is_match path_len 11
+```
+
+
+* path_reg :
+
+```
+acl is_match path_reg -i .(css|js)$
+```
+
+* path_string :
+
+```
+acl is_match path_string -i page
+```
+
+
+
+
