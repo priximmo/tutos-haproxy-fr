@@ -1,0 +1,45 @@
+%title: HAPROXY - hatop
+%author: xavki
+
+
+
+
+-> HAPROXY : Hatop <-
+=========
+
+
+
+
+* manager de haproxy
+
+
+
+* idem top
+
+
+
+* idem GUI
+
+------------------------------------------------------------------
+
+
+-> Utilisattion <-
+
+
+* haproxy.cfg
+
+```
+global
+  stats socket /var/run/haproxy/haproxy.sock mode 0600 level admin
+```
+
+* paquet
+
+```
+sudo apt-get install hatop
+
+hatop -s /var/run/haproxy/haproxy.sock
+```
+
+
+
