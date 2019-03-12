@@ -1,0 +1,99 @@
+%title: HAPROXY - Keepalived
+%author: xavki
+
+
+
+
+-> HAPROXY && Keepalived <-
+
+=========
+* haproxy : load-balancer = SPOF
+
+
+
+* doublonner le service mais comment ? haproxy ? non
+
+
+
+* keepalived : load-balancer qui va nous permettre de gérer une VIP
+
+
+
+* si perte de Haproxy1 la VIP est basculé sur Haproxy2 etc
+
+
+-------------------------------------------------------------------------------------
+
+
+-> Mise en place <-
+
+
+* 2 VM Vbox avec Haproxy et un service (ex : nginx)
+
+<br>
+* création d'une VIP 192.168.99.110
+
+
+```
+sudo ip route add 192.168.99.1/32 via 192.168.99.110
+```
+
+* 
+
+
+-------------------------------------------------------------------------------------
+
+
+-> Configuration du master <-
+
+
+* dans /etc/keepalived/keepalived.conf
+
+```
+vrrp_script reload_haproxy {
+                script "killall -0 haproxy"
+                interval 1
+}
+
+vrrp_instance VI_1 {
+   virtual_router_id 100
+   state MASTER
+   priority 100
+   # interval de check
+   advert_int 1
+   # interface de synchro entre les LB
+   lvs_sync_daemon_interface enp0s9
+   interface enp0s9
+   # authentification entre les 2 machines LB
+   authentication {
+                auth_type PASS
+                auth_pass secret
+   }
+   # vip
+   virtual_ipaddress {
+                192.168.99.110/32 brd 192.168.99.255 scope global
+   }
+   track_script {
+           reload_haproxy
+   }
+}
+
+```
+
+-----------------------------------------------------------------------
+
+
+
+
+-> Configuration du slave <-
+
+
+
+
+
+idem sauf MASTER => BACKUP
+
+
+
+
+----------------------------------------------------------------------
