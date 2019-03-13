@@ -31,14 +31,23 @@
 * 2 VM Vbox avec Haproxy et un service (ex : nginx)
 
 <br>
-* création d'une VIP 192.168.99.110
+* création d'une VIP 192.168.99.110 sur le host sinon dns
 
 
 ```
 sudo ip route add 192.168.99.1/32 via 192.168.99.110
 ```
 
-* 
+* Changement de conf de systctl.conf
+
+```
+net.ipv4.ip_nonlocal_bind = 1
+net.ipv4.conf.all.arp_announce = 2
+net.ipv4.conf.all.arp_ignore = 1
+net.ipv4.ip_forward = 1
+
+sysctl -p /etc/sysctl.conf
+```
 
 
 -------------------------------------------------------------------------------------
