@@ -5,8 +5,9 @@
 
 
 -> HAPROXY && Keepalived <-
-
 =========
+
+<br>
 * haproxy : load-balancer = SPOF
 
 
