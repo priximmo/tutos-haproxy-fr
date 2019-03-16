@@ -1,0 +1,78 @@
+%title: HAPROXY - Sticky session
+%author: xavki
+
+
+
+
+-> HAPROXY : Sticky Table <-
+=========
+
+
+
+<br>
+* maintenir les sessions :
+
+	- base de données
+
+  - certificats
+
+  - cache
+
+
+
+-----------------------------------------------------------------
+
+-> HAPROXY : mise en place <-
+
+
+
+* install de 2 serveurs web sur le port 80
+
+```
+python -m SimpleHTTPServer 80
+```
+
+* install haproxy
+
+```
+apt-get install haproxy
+```
+
+* configuration classique
+
+```
+frontend myapp_front
+    bind *:80
+    mode http
+    default_backend pool_load 
+
+backend pool_load
+    server serv1 172.17.0.3:80
+    server serv1 172.17.0.3:80
+```
+
+-------------------------------------------------------------------
+
+
+-> HAPROXY : Terminaison <-
+
+
+
+* en mode sticky table
+
+
+
+```
+frontend myapp_front
+    bind *:80
+    bind *:443 ssl crt /etc/ssl/xavki/xavki.pem
+    mode http
+    default_backend pool_load
+
+backend pool_load
+    server serv1 172.17.0.3:80
+    server serv1 172.17.0.4:80
+    stick-table type ip size 1m expire 30m
+    stick match src
+    stick store-request src
+```

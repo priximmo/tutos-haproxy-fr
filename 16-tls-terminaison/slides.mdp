@@ -1,0 +1,84 @@
+%title: HAPROXY - Terminaison TLS
+%author: xavki
+
+
+
+
+-> HAPROXY : SSL où plutôt TLS <-
+=========
+
+
+
+<br>
+* 3 cas :
+
+	- terminaison SSL : arrivée HTTPS après HTTP
+
+  - passthrough : transparent (TCP)
+
+  - réencryption : entrée cert1 après cert2
+
+
+
+-----------------------------------------------------------------
+
+-> HAPROXY : Terminaison <-
+
+
+
+* install de 2 serveurs web sur le port 80
+
+```
+python -m SimpleHTTPServer 80
+```
+
+* install haproxy
+
+```
+apt-get install haproxy
+```
+
+* configuration classique
+
+```
+frontend myapp_front
+    bind *:80
+    mode http
+    default_backend pool_load 
+
+backend pool_load
+    server serv1 172.17.0.3:80
+    server serv1 172.17.0.4:80
+```
+
+-------------------------------------------------------------------
+
+
+-> HAPROXY : Terminaison <-
+
+
+* génération du certificat auto-signé
+
+```
+openssl req -x509 -newkey rsa:2048 -keyout xavki.key -out xavki.crt -days 365 -nodes
+```
+
+* fusion en .pem
+
+```
+mkdir /etc/ssl/xavki/
+cat xavki.key xavki.crt > /etc/ssl/xavki/xavki.pem
+```
+
+* changement de configuration
+
+```
+frontend myapp_front
+    bind *:80
+    bind *:443 ssl crt /etc/ssl/xavki/xavki.pem
+    mode http
+    default_backend pool_load
+
+backend pool_load
+    server serv1 172.17.0.3:80
+```
