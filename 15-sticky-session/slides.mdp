@@ -10,13 +10,15 @@
 
 
 <br>
-* maintenir les sessions :
+* maintenir les sessions sur les mêmes serveurs :
 
-	- base de données
+  - base de données
 
   - certificats
 
   - cache
+
+
 
 
 
