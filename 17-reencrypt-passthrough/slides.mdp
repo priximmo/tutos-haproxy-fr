@@ -1,0 +1,119 @@
+%title: HAPROXY - Terminaison TLS
+%author: xavki
+
+
+
+
+-> HAPROXY : SSL où plutôt TLS <-
+=========
+
+
+
+<br>
+* 3 cas :
+
+	- terminaison SSL : arrivée HTTPS après HTTP
+
+  - passthrough : transparent (TCP)
+
+  - réencryption : entrée cert1 après cert2
+
+
+
+-----------------------------------------------------------------
+
+
+-> HAPROXY : Passthrough <-
+
+
+
+* machine 2 : install d'un serveur nginx
+
+```
+apt-get install nginx
+```
+
+* machine 1 : install haproxy
+
+```
+apt-get install haproxy
+```
+
+* création d'un certificat pour le nginx
+
+```
+openssl req -x509 -newkey rsa:2048 -keyout xavki.key -out xavki.crt -days 365 -nodes
+``` 
+
+* configuration du nginx
+
+```
+        listen 443;
+        ssl    on;
+        ssl_certificate    /etc/ssl/nginx/xavki.crt; 
+        ssl_certificate_key    /etc/ssl/nginx/xavki.key;
+
+```
+
+-------------------------------------------------------------------
+
+
+-> HAPROXY : Passthrough <-
+
+
+
+* configuration de haproxy avec tcp
+
+
+```
+frontend myapp_front
+    bind *:443
+    mode tcp
+    default_backend pool_load
+
+backend pool_load
+    mode tcp
+    server serv1 172.17.0.3:443
+```
+
+
+
+
+----------------------------------------------------------------------
+
+
+-> HAPROXY : réencryption <-
+
+
+
+* génération du certificat auto-signé pour haproxy
+
+```
+openssl req -x509 -newkey rsa:2048 -keyout xavki.key -out xavki.crt -days 365 -nodes
+```
+
+* fusion en .pem
+
+```
+mkdir /etc/ssl/xavki/
+cat xavki.key xavki.crt > /etc/ssl/xavki/xavki.pem
+```
+
+* changement de configuration
+
+```
+frontend myapp_front
+    bind *:80
+    bind *:443 ssl crt /etc/ssl/xavki/xavki.pem 
+    redirect scheme https if !{ ssl_fc }
+    mode http
+    default_backend pool_load
+
+backend pool_load
+    mode http
+    server serv1 172.17.0.3:443 check ssl verify none
+
+```
+
+Rq 1 : ssl_fc retourne True si ssl
+Rq 2 : verify none (car cert auto-signé)

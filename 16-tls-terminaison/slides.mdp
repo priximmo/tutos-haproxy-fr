@@ -75,10 +75,15 @@ cat xavki.key xavki.crt > /etc/ssl/xavki/xavki.pem
 ```
 frontend myapp_front
     bind *:80
-    bind *:443 ssl crt /etc/ssl/xavki/xavki.pem
+    bind *:443 ssl crt /etc/ssl/xavki/xavki.pem no-sslv3
+    redirect scheme https if !{ ssl_fc }
     mode http
     default_backend pool_load
 
 backend pool_load
     server serv1 172.17.0.3:80
 ```
+
+Rq 1 : ssl_fc retourne True si ssl
+Rq 2 : nosslv3 pour pas de ssl3 (idem no-tlsv10)
+
