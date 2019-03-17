@@ -84,7 +84,7 @@ backend pool_load
 
 -> HAPROXY : réencryption <-
 
-
+* client > certificat haproxy > serveur > certificat nginx
 
 * génération du certificat auto-signé pour haproxy
 
