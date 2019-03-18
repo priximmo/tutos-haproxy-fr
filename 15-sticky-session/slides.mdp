@@ -56,7 +56,7 @@ backend pool_load
 -------------------------------------------------------------------
 
 
--> HAPROXY : Terminaison <-
+-> HAPROXY : Sticky table <-
 
 
 
@@ -67,11 +67,11 @@ backend pool_load
 ```
 frontend myapp_front
     bind *:80
-    bind *:443 ssl crt /etc/ssl/xavki/xavki.pem
     mode http
     default_backend pool_load
 
 backend pool_load
+    mode http
     server serv1 172.17.0.3:80
     server serv1 172.17.0.4:80
     stick-table type ip size 1m expire 30m
