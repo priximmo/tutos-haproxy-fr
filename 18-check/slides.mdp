@@ -1,0 +1,108 @@
+%title: HAPROXY - Check
+%author: xavki
+
+
+
+
+-> HAPROXY : Check <-
+=========
+
+
+
+<br>
+* haproxy dispose de très nombreux check existants
+
+cf: https://www.haproxy.com/fr/documentation/aloha/10-0/traffic-management/lb-layer7/health-checks/
+
+		- mysql
+		- pgsql
+		- smtp
+		- commande tcp
+		- redis
+		- ldap
+		- http
+
+* GUI : vérifier les check
+
+```
+listen stats
+    bind *:9000
+    stats enable
+    stats uri /stats
+    stats refresh 2s
+    stats auth xavki:password
+```
+
+
+------------------------------------------------------------------------------------------------------
+
+
+-> Configuration de base <-
+
+
+* install de 1 serveurs web sur le port 80
+
+```
+python -m SimpleHTTPServer 80
+```
+
+* install haproxy
+
+```
+apt-get install haproxy
+```
+
+* configuration classique
+
+```
+frontend myapp_front
+    bind *:80
+    mode http
+    default_backend pool_load
+
+backend pool_load
+    server serv1 172.17.0.3:80
+```
+
+------------------------------------------------------------------------------------------------------
+
+
+-> Mise en place de check <-
+
+<br>
+* simple tcp
+
+```
+backend pool_load
+    mode http
+    option httpchk GET /xavki
+    server serv1 172.17.0.3:80 check inter 10s fall 3 rise 5
+    server serv1 172.17.0.4:80 check inter 10s fall 3 rise 5
+```
+
+* inter : interval de temps
+* fall : nombre d'échecs pour sortie de pool
+* rise : nombre de réussite pour entrée
+
+<br>
+
+* script autre (sur le haproxy > ping et autres api pour checker)
+
+```
+echo "if [ "$(curl -s 172.17.0.2 | grep xavki | wc -l)" == "1" ]; then echo 0;else echo 1;fi" > test.sh
+
+
+
+backend pool_load
+    mode http
+    external-check command /root/test.sh
+    server serv1 172.17.0.3:80 check inter 10s fall 3 rise 5
+    server serv1 172.17.0.4:80 check inter 10s fall 3 rise 5
+
+```
+
+<br>
+
+* autres : mysql...
+
+	- création d'un user pour connecter (ex: haproxy)
