@@ -86,23 +86,6 @@ backend pool_load
 
 <br>
 
-* script autre (sur le haproxy > ping et autres api pour checker)
-
-```
-echo "if [ "$(curl -s 172.17.0.2 | grep xavki | wc -l)" == "1" ]; then echo 0;else echo 1;fi" > test.sh
-
-
-
-backend pool_load
-    mode http
-    external-check command /root/test.sh
-    server serv1 172.17.0.3:80 check inter 10s fall 3 rise 5
-    server serv1 172.17.0.4:80 check inter 10s fall 3 rise 5
-
-```
-
-<br>
-
 * autres : mysql...
 
 	- création d'un user pour connecter (ex: haproxy)
