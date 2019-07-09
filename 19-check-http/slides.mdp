@@ -1,0 +1,97 @@
+%title: HAPROXY - Check
+%author: xavki
+
+
+
+
+-> HAPROXY : Check <-
+=========
+
+-> Configuration de base <-
+
+
+* install de 1 serveurs web sur le port 80
+
+```
+python -m SimpleHTTPServer 80
+```
+
+* install haproxy
+
+```
+apt-get install haproxy
+```
+
+* configuration classique
+
+```
+frontend myapp_front
+    bind *:80
+    mode http
+    default_backend pool_load
+
+backend pool_load
+    mode http
+    server serv1 172.17.0.3:80
+```
+
+
+------------------------------------------------------------------------------------------------------
+
+
+-> HTTP : simple <-
+
+<br>
+* simple http
+
+```
+backend pool_load
+    mode http
+    option httpchk GET /xavki
+    server serv1 172.17.0.3:80 check inter 10s fall 3 rise 5
+    server serv2 172.17.0.4:80 check inter 10s fall 3 rise 5
+```
+
+
+* inter : interval de temps
+* fall : nombre d'échecs pour sortie de pool
+* rise : nombre de réussite pour entrée
+
+
+-----------------------------------------------------------------------------------------------------
+
+-> HTTP : autre port <-
+
+
+<br>
+* par exemple pour les bases de données 
+
+```
+backend pool_load
+    mode tcp
+    option httpchk GET /xavki
+    server serv1 172.17.0.3:80 check port 8888
+    server serv2 172.17.0.4:80 check port 8888
+
+```
+
+
+-----------------------------------------------------------------------------------------------------
+
+
+->Analyse de la réponse<-
+
+
+* réponse : check par status
+
+```
+http-check expect status 200 # code unique
+http-check expect rstatus (2|3)[0-9][0-9] # multiples
+```
+
+* réponse : check par contenu
+
+```
+http-check expect ! string KO # avec négation
+```
+

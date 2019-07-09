@@ -57,35 +57,46 @@ apt-get install haproxy
 ```
 frontend myapp_front
     bind *:80
-    mode http
+    mode tcp
     default_backend pool_load
 
 backend pool_load
+    mode tcp
     server serv1 172.17.0.3:80
 ```
 
+
 ------------------------------------------------------------------------------------------------------
 
+-> Check TCP <-
 
--> Mise en place de check <-
 
-<br>
-* simple tcp
 
 ```
 backend pool_load
-    mode http
-    option httpchk GET /xavki
-    server serv1 172.17.0.3:80 check inter 10s fall 3 rise 5
-    server serv1 172.17.0.4:80 check inter 10s fall 3 rise 5
+    mode tcp
+    option tcp-check
+    server serv1 172.17.0.3:80
+    server serv2 172.17.0.3:80
 ```
 
-* inter : interval de temps
-* fall : nombre d'échecs pour sortie de pool
-* rise : nombre de réussite pour entrée
 
-<br>
+-----------------------------------------------------------------------------------------------------
 
-* autres : mysql...
 
-	- création d'un user pour connecter (ex: haproxy)
+-> Check TCP : plus avancé <-
+
+
+```
+backend pool_load
+    mode tcp
+    option tcp-check
+    tcp-check send GET\ /xavki\ HTTP/1.1\r\n
+    tcp-check send Host:\ myhost\r\n
+    tcp-check send Connection:\ close\r\n
+    tcp-check send \r\n
+    tcp-check expect string HTTP/1.1\ 200\ OK
+    tcp-check expect ! string Error
+```
+
+
