@@ -10,10 +10,10 @@
 -> Configuration de base <-
 
 
-* install de 1 serveurs web sur le port 80
+* install de 1 serveurs web sur le port 8888
 
 ```
-python -m SimpleHTTPServer 80
+python -m SimpleHTTPServer 8888
 ```
 
 * install haproxy
@@ -22,7 +22,18 @@ python -m SimpleHTTPServer 80
 apt-get install haproxy
 ```
 
+---------------------------------------------------------------------------------------------------
+
 * configuration classique
+
+```
+listen stats
+    bind *:9000
+    stats enable
+    stats uri /stats
+    stats refresh 2s
+    stats auth xavki:password
+```
 
 ```
 frontend myapp_front
@@ -32,7 +43,8 @@ frontend myapp_front
 
 backend pool_load
     mode http
-    server serv1 172.17.0.3:80
+    server serv1 172.17.0.3:8888
+    server serv2 172.17.0.3:8888
 ```
 
 
@@ -48,8 +60,8 @@ backend pool_load
 backend pool_load
     mode http
     option httpchk GET /xavki
-    server serv1 172.17.0.3:80 check inter 10s fall 3 rise 5
-    server serv2 172.17.0.4:80 check inter 10s fall 3 rise 5
+    server serv1 172.17.0.3:8888 check inter 10s fall 3 rise 5
+    server serv2 172.17.0.4:8888 check inter 10s fall 3 rise 5
 ```
 
 
