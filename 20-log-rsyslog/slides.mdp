@@ -1,0 +1,123 @@
+%title: HAPROXY 
+%author: xavki
+
+
+
+
+-> HAPROXY : Logs et Rsyslog <-
+=========
+
+
+Rsyslog
+
+
+<br>
+* serveur de centralisation de log
+
+
+<br>
+* distant ou local
+
+
+<br>
+* le seul moyen pour obtenir le détail des logs de requêtes haproxy
+
+
+<br> 
+* simple à mettre en place
+
+
+-------------------------------------------------------------------------------------
+
+-> Installation de Rsyslog <-
+
+
+<br>
+* le paquet
+
+```
+sudo apt-get install rsyslog
+```
+
+https://www.haproxy.com/fr/blog/introduction-to-haproxy-logging/
+
+```
+# Collect log with UDP
+$ModLoad imudp
+$UDPServerAddress 127.0.0.1
+$UDPServerRun 514
+# Creating separate log files based on the severity
+local0.* /var/log/haproxy-traffic.log
+local0.notice /var/log/haproxy-admin.log
+```
+
+-------------------------------------------------------------------------------------
+
+-> Notre exemple <-
+
+<br>
+* la configuration
+
+```
+sudo vim /etc/rsyslog.conf
+
+$ModLoad imudp
+$UDPServerRun 514
+
+$ModLoad imtcp
+$InputTCPServerRun 514
+
+$template RemoteLogs,"/tmp/log/%HOSTNAME%/%PROGRAMNAME%.log"
+*.* ?RemoteLogs 
+& ~
+``` 
+
+------------------------------------------------------------------------------------
+
+-> Configuration haproxy <-
+
+
+<br>
+```
+global
+	log 172.37.1.2 local0 info
+...
+frontend myapp_front
+    bind *:80
+    mode http
+    default_backend pool_load
+
+backend pool_load
+    mode http
+    server serv1 172.37.1.4:8888
+```
+
+Serveur web
+
+```
+python -m SimpleHTTPServer 8888
+```
+
+------------------------------------------------------------------------------------
+
+-> Différenciation de logs <-
+
+
+<br>
+* ajout conf haproxy 
+
+```
+frontend myapp_front
+    bind *:80
+    log 127.0.0.1 local1 info
+    mode http
+    default_backend pool_load
+```
+
+* ajout rsyslog
+
+```
+local1.* /var/log/haproxy-traffic.log
+local1.notice /var/log/haproxy-admin.log
+
+```
