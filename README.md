@@ -1,0 +1,23 @@
+# SOMMAIRE : TUTOS HAPROXY FR
+
+- 1. [HAPROXY - 1. INTRODUCTION ET PRESENTATION](https://www.youtube.com/watch?v=inVviPzjIVU)
+- 2. [HAPROXY - 1. INSTALLATION](https://www.youtube.com/watch?v=i-UaO10ssww)
+- 3. [Haproxy - 3. Un échange en étapes | tutos fr](https://www.youtube.com/watch?v=xT8-LR_7mRM)
+- 4. [Haproxy - 4. Configuration : Global et Defaults | tutos fr](https://www.youtube.com/watch?v=2xe4-hhBunc)
+- 5. [Haproxy - 5. Premier loadbalancer : frontend et backend](https://www.youtube.com/watch?v=2ELxMZ2II0M)
+- 6. [Haproxy - 6. ACL : gérer plusieurs URL | tutos fr](https://www.youtube.com/watch?v=bEMojousX68)
+- 7. [Haproxy - 7. Forward For : conserver l'ip du client | tutos fr](https://www.youtube.com/watch?v=9R52z0tSEIc)
+- 8. [Haproxy - 8. Interface graphique (GUI) : statistiques | tutos fr](https://www.youtube.com/watch?v=KqV6IRO8LXM)
+- 9. [Haproxy - 9. Interface graphique : administration | tutos fr](https://www.youtube.com/watch?v=Q31fO1QKzuU)
+- 10. [Haproxy - 10. ACL : User-Agent et gestion des statiques](https://www.youtube.com/watch?v=UCTLAT25FSE)
+- 11. [Haproxy - 11. Les différents algorithmes](https://www.youtube.com/watch?v=WwbeCvpq4lc)
+- 12. [Haproxy - 12. ACL : Matching d'url (path) ou routing](https://www.youtube.com/watch?v=EWppqsnqyXU)
+- 13. [Haproxy - 13. Hatop : la GUI dans votre terminal](https://www.youtube.com/watch?v=Bip5j4enbuc)
+- 14. [Haproxy - 14. Keepalived pour de la haute disponibilité](https://www.youtube.com/watch?v=HxQidx8lXM8)
+- 15. [Haproxy - 15. Sticky table : maintien de session](https://www.youtube.com/watch?v=erjg44ogKQA)
+- 16. [Haproxy - 16. SSL : mode terminaison TLS](https://www.youtube.com/watch?v=_YVwobp10J8)
+- 17. [Haproxy - 17. HTTPS : le passthrough et la réencryption](https://www.youtube.com/watch?v=E0anep5XmuQ)
+- 18. [Haproxy - 19. Les HTTP checks](https://www.youtube.com/watch?v=jLWw0q3fcV4)
+- 19. [Haproxy - 18. Les TCP checks](https://www.youtube.com/watch?v=EOW-3_SXV2Q)
+- 20. [Haproxy - 20. Syslog : loguer les requêtes](https://www.youtube.com/watch?v=B8eHiQEoRko)
+
